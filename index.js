@@ -9,10 +9,14 @@ const push_key = process.env.PUSH_KEY;
 
 // 私密信息，通过 Github secrets 填入
 const secret_keys = {
-  openid: process.env.OPEN_ID,
-  mrdkkey: process.env.MRDK_KEY,
-  student_num: process.env.STUDENT_NUM,
-  address: process.env.ADDRESS
+  // openid: process.env.OPEN_ID,
+  // mrdkkey: process.env.MRDK_KEY,
+  // student_num: process.env.STUDENT_NUM,
+  // address: process.env.ADDRESS
+  openid: "process.env.OPEN_ID",
+  mrdkkey: "process.env.MRDK_KEY",
+  student_num: '2018210052',
+  address: "重庆邮电大学"
 };
 
 // 获取当前时间戳
@@ -51,7 +55,6 @@ function checkRepeatClock() {
     })
     .catch((err) => {
           console.log("1、检测重复打卡失败");
-      console.log(err);
       return;
     });
 }
@@ -73,10 +76,8 @@ function getStudentInfo() {
         secret_keys.name = data.name;
         secret_keys.sex = data.gender;
         console.log("2、获取学生信息成功");
-        console.log("secret_keys")
-        // getLocation();
+        getLocation();
       } else {
-        console.log(res)
         console.log("2、获取学生信息失败");
         console.log("3、打卡失败");
         sendNotification("自动健康打卡失败，请手动打卡");
@@ -84,7 +85,6 @@ function getStudentInfo() {
       }
     })
     .catch(err => {
-        console.log(err)
       console.log("2、获取学生信息失败");
       console.log("3、打卡失败");
       sendNotification("自动健康打卡失败，请手动打卡");
@@ -141,8 +141,8 @@ function ClockIn() {
     xb: secret_keys.sex,
     locationBig: secret_keys.locationBig,
     locationSmall: secret_keys.locationSmall,
-    latitude: secret_keys.latitude,
-    longitude: secret_keys.longitude,
+    latitude: secret_keys.lat,
+    longitude: secret_keys.lng,
     szdq: secret_keys.addressBig,
     xxdz: secret_keys.address,
 
