@@ -2,9 +2,9 @@ name: Auto Clock In
 
 on:
   # push 到 main 分支的时候会触发打卡，我会检测重复打卡的
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
   # 定时打卡
   schedule:
     # 建议改一下打卡时间，下方代码第二个数字表示 7 点钟，这个时间比北京时间晚 8 小时，第二个数字是分钟，所以当前打卡的时间为每天 7 点 10

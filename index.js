@@ -72,18 +72,21 @@ function getStudentInfo() {
         let data = res.data.data[0];
         secret_keys.name = data.name;
         secret_keys.sex = data.gender;
-        console.log("1、获取学生信息成功");
-        getLocation();
+        console.log("2、获取学生信息成功");
+        console.log("secret_keys")
+        // getLocation();
       } else {
-        console.log("1、获取学生信息失败");
-        console.log("2、打卡失败");
+        console.log(res)
+        console.log("2、获取学生信息失败");
+        console.log("3、打卡失败");
         sendNotification("自动健康打卡失败，请手动打卡");
         return;
       }
     })
     .catch(err => {
-      console.log("1、获取学生信息失败");
-      console.log("2、打卡失败");
+        console.log(err)
+      console.log("2、获取学生信息失败");
+      console.log("3、打卡失败");
       sendNotification("自动健康打卡失败，请手动打卡");
       return;
     });
@@ -112,17 +115,17 @@ function getLocation() {
           result.title;
         secret_keys.locationBig = `中国,${result.address_components.province},${result.address_components.city},${result.address_components.district}`;
         ClockIn();
-        console.log("2、获取地址成功");
+        console.log("3、获取地址成功");
       } else {
-        console.log("2、获取地址失败");
-        console.log("3、打卡失败");
+        console.log("3、获取地址失败");
+        console.log("4、打卡失败");
         sendNotification("自动健康打卡失败，请手动打卡");
         return;
       }
     })
     .catch(() => {
-      console.log("2、获取地址失败");
-      console.log("3、打卡失败");
+      console.log("3、获取地址失败");
+      console.log("4、打卡失败");
       sendNotification("自动健康打卡失败，请手动打卡");
       return;
     });
@@ -178,15 +181,15 @@ function ClockIn() {
   ax(options)
     .then(res => {
       if (res.data.status == 200) {
-        console.log("3、打卡成功");
+        console.log("4、打卡成功");
         sendNotification("自动健康打卡成功");
       } else {
-        console.log("3、打卡失败");
+        console.log("4、打卡失败");
         sendNotification("自动健康打卡失败，请手动打卡");
       }
     })
     .catch(err => {
-      console.log("3、打卡失败");
+      console.log("4、打卡失败");
       sendNotification("自动健康打卡失败，请手动打卡");
     });
 }
@@ -212,13 +215,13 @@ function sendNotification(text) {
     .then(res => {
       const code = res.data.errno;
       if (code == 0) {
-        console.log("4、发送通知成功");
+        console.log("5、发送通知成功");
       } else {
-        console.log("4、发送通知失败：" + res.data.errmsg);
+        console.log("5、发送通知失败：" + res.data.errmsg);
       }
     })
     .catch(err => {
-      console.log("4、发送通知失败");
+      console.log("5、发送通知失败");
     });
 }
 
