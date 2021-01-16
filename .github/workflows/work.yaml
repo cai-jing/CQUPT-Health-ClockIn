@@ -3,7 +3,7 @@ name: Auto Clock In
 on:
   push:
     branches:
-      - master
+      - main
   schedule:
     - cron: 0 22 * * *
     
