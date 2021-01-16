@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "axios": "^0.21.1",
+    "silly-datetime": "^0.1.2"
+  }
+}
