@@ -162,7 +162,6 @@ function ClockIn() {
     timestamp: getTimeStamp()
   };
 
-  console.log(key)
   const key_base64 = new Buffer.from(JSON.stringify(key)).toString("base64");
 
   const options = {
