@@ -30,7 +30,7 @@ jobs:
                 node-version: '12.x'
                 
             - name: Run install
-              run: npm install
+              run: yarn
               
             - name: Run Script
               run: node index.js
