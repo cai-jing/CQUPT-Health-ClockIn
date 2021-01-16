@@ -44,7 +44,7 @@
   - STUDENT_NUM：学号。
   - ADDRESS：详细住址，填写到区县一级即可，比如南岸区重庆邮电大学。
   - PUSH_KEY：如果你需要推送打卡信息到微信
-![](https://img.imgdb.cn/item/60032ed33ffa7d37b3251c40.jpg)
+![](https://img.imgdb.cn/item/600331ea3ffa7d37b3262a3d.jpg)
 3. 修改脚本执行时间，先要将仓库 Clone 到本地，修改 `CQUPT_Health_ClockIn/.github/workflows/work.yaml`
 4. 本脚本通过 [Sever 酱](http://sc.ftqq.com/) 来实现推送打卡信息到微信，如果你需要开启这个服务，就按照网站首页提示即可，你会获得一个 SCKEY，你需要填入上面的 PUSH_KEY 中。
 
