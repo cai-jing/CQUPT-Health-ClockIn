@@ -37,7 +37,8 @@
 你需要填写的值仅`openid`,`mrdkkey`,`xh`,`xxdz`
 
 ### 使用方法
-1. Star 并 Fork 本仓库，进入 Action 界面，手动启用 Action 服务。
+1. Star 并 Fork 本仓库，进入 Action 界面，手动启用 Action 服务，并开启 workflow 运行。
+![](https://img.imgdb.cn/item/600382573ffa7d37b340434a.jpg)
 2. 在 Settings-Secrets 中添加以下四个值，填写时请注意不要有换行
   - OPEN_ID：自行抓包获得，抓包工具 iOS 推荐 Stream，Android 推荐 HttpCanary，为了避免脚本被滥用，所以在此我不提供抓包方法，请自行研究。
   - MRDK_KEY：自行抓包获得。
@@ -45,7 +46,7 @@
   - ADDRESS：详细住址，填写到区县一级即可，比如南岸区重庆邮电大学。
   - PUSH_KEY：本脚本通过 [Sever 酱](http://sc.ftqq.com/) 来实现推送打卡信息到微信，如果你需要开启这个服务，就按照网站首页提示即可，你会获得一个 SCKEY，你需要填入 PUSH_KEY 中。如果你不需要推送，则可以不填。
 ![](https://img.imgdb.cn/item/600331ea3ffa7d37b3262a3d.jpg)
-3. 修改脚本执行时间，先要将仓库 Clone 到本地，修改 `CQUPT_Health_ClockIn/.github/workflows/work.yaml`。Github 定时执行会有延迟，大概是 10 到 20 分钟。
+3. 修改脚本执行时间，先要将仓库 Clone 到本地，修改 `CQUPT_Health_ClockIn/.github/workflows/work.yaml`。Github 定时执行会有延迟，大概是 10 到 20 分钟。每次 Push 也会触发打卡，脚本会检测重复打卡。
 
 ### 在本地运行测试
 ```js

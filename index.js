@@ -45,12 +45,12 @@ function checkRepeatClock() {
           return;
         }
       } else {
-          console.log("1、检测重复打卡失败");
+        console.log("1、检测重复打卡失败");
         return;
       }
     })
-    .catch((err) => {
-          console.log("1、检测重复打卡失败");
+    .catch(err => {
+      console.log("1、检测重复打卡失败");
       return;
     });
 }
