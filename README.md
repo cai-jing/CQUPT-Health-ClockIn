@@ -37,7 +37,8 @@
 你需要填写的值仅`openid`,`mrdkkey`,`xh`,`xxdz`
 
 ### 使用方法
-1. Star 并 Fork 本仓库，进入 Action 界面，手动启用 Action 服务，并开启 workflow 运行。
+1. Star 并 Fork 本仓库，进入 Actions 界面，允许 workfow 运行，注意需要下方两个地方都需要允许。
+![](https://img.imgdb.cn/item/600383b93ffa7d37b340c6f9.jpg)
 ![](https://img.imgdb.cn/item/600382573ffa7d37b340434a.jpg)
 2. 在 Settings-Secrets 中添加以下四个值，填写时请注意不要有换行
   - OPEN_ID：自行抓包获得，抓包工具 iOS 推荐 Stream，Android 推荐 HttpCanary，为了避免脚本被滥用，所以在此我不提供抓包方法，请自行研究。
