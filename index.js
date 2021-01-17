@@ -18,8 +18,13 @@ const secret_keys = {
 // 获取当前时间戳
 const getTimeStamp = () => Math.floor(Date.now() / 1000);
 
-// 检查重复打卡 
+// 检查重复打卡
 function checkRepeatClock() {
+  if (!secret_keys.student_num) {
+    console.log("1、没有填写学号");
+    console.log("2、打卡失败");
+    return;
+  }
   const key = {
     xh: secret_keys.student_num,
     timestamp: getTimeStamp()
@@ -90,6 +95,11 @@ function getStudentInfo() {
 
 // 获取位置信息
 function getLocation() {
+  if (!secret_keys.address) {
+    console.log("3、没有填写地址");
+    console.log("4、打卡失败");
+    return;
+  }
   const options = {
     url: "https://apis.map.qq.com/ws/geocoder/v1/",
     method: "GET",
@@ -110,8 +120,8 @@ function getLocation() {
           result.address_components.district +
           result.title;
         secret_keys.locationBig = `中国,${result.address_components.province},${result.address_components.city},${result.address_components.district}`;
-        clockIn();
         console.log("3、获取地址成功");
+        clockIn();
       } else {
         console.log("3、获取地址失败");
         console.log("4、打卡失败");
@@ -129,6 +139,11 @@ function getLocation() {
 
 // 打卡
 function clockIn() {
+  if (!secret_keys.openid) {
+    console.log("4、没有填写 OPEN_ID");
+    console.log("5、打卡失败");
+    return;
+  }
   const time = new Date();
   const key = {
     openid: secret_keys.openid.replace(/[\r\n]/g, ""),
