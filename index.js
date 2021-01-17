@@ -18,7 +18,7 @@ const secret_keys = {
 // 获取当前时间戳
 const getTimeStamp = () => Math.floor(Date.now() / 1000);
 
-// 检查重复打卡
+// 检查重复打卡 
 function checkRepeatClock() {
   const key = {
     xh: secret_keys.student_num,
@@ -110,7 +110,7 @@ function getLocation() {
           result.address_components.district +
           result.title;
         secret_keys.locationBig = `中国,${result.address_components.province},${result.address_components.city},${result.address_components.district}`;
-        ClockIn();
+        clockIn();
         console.log("3、获取地址成功");
       } else {
         console.log("3、获取地址失败");
@@ -128,11 +128,10 @@ function getLocation() {
 }
 
 // 打卡
-function ClockIn() {
+function clockIn() {
   const time = new Date();
   const key = {
     openid: secret_keys.openid.replace(/[\r\n]/g, ""),
-    mrdkkey: getMrdkKey(time.getDate(), time.getHours()),
     name: secret_keys.name,
     xh: secret_keys.student_num,
     xb: secret_keys.sex,
@@ -156,7 +155,8 @@ function ClockIn() {
     // 备注
     beizhu: "无",
     // 当前时间戳
-    timestamp: getTimeStamp()
+    timestamp: getTimeStamp(),
+    mrdkkey: getMrdkKey(time.getDate(), time.getHours())
   };
 
   const key_base64 = new Buffer.from(JSON.stringify(key)).toString("base64");
