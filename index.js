@@ -1,6 +1,6 @@
 // version v0.1
 // create by ourongxing
-// detail url: https://github.com/ourongxing/CQUPT_Health_ClockIn
+// detail url: https://github.com/ourongxing/CQUPT-Health-ClockIn
 
 const ax = require("axios");
 
