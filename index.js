@@ -1,8 +1,9 @@
 // version v0.1
 // create by ourongxing
-// detail url: https://github.com/ourongxing/CQUPT_Health_ClockIn
+// detail url: https://github.com/ourongxing/CQUPT-Health-ClockIn
 
 const ax = require("axios");
+const { getMrdkKey } = require("./mrdkkey.js");
 
 // Server酱推送 KEY
 const push_key = process.env.PUSH_KEY;
@@ -10,7 +11,6 @@ const push_key = process.env.PUSH_KEY;
 // 私密信息，通过 Github secrets 填入
 const secret_keys = {
   openid: process.env.OPEN_ID,
-  mrdkkey: process.env.MRDK_KEY,
   student_num: process.env.STUDENT_NUM,
   address: process.env.ADDRESS
 };
@@ -129,9 +129,10 @@ function getLocation() {
 
 // 打卡
 function ClockIn() {
+  const time = new Date();
   const key = {
     openid: secret_keys.openid.replace(/[\r\n]/g, ""),
-    mrdkkey: secret_keys.mrdkkey.replace(/[\r\n]/g, ""),
+    mrdkkey: getMrdkKey(time.getDate(), time.getHours()),
     name: secret_keys.name,
     xh: secret_keys.student_num,
     xb: secret_keys.sex,
@@ -195,7 +196,6 @@ function sendNotification(text) {
     return;
   }
 
-  // 去除末尾的换行
   let SCKEY = push_key.replace(/[\r\n]/g, "");
 
   const options = {

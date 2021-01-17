@@ -13,7 +13,6 @@ on:
 env:
   PUSH_KEY: ${{ secrets.PUSH_KEY }}
   OPEN_ID: ${{ secrets.OPEN_ID }}
-  MRDK_KEY: ${{ secrets.MRDK_KEY }}
   STUDENT_NUM: ${{ secrets.STUDENT_NUM }}
   ADDRESS: ${{ secrets.ADDRESS }}
 
