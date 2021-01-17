@@ -9,14 +9,10 @@ const push_key = process.env.PUSH_KEY;
 
 // 私密信息，通过 Github secrets 填入
 const secret_keys = {
-  // openid: process.env.OPEN_ID,
-  // mrdkkey: process.env.MRDK_KEY,
-  // student_num: process.env.STUDENT_NUM,
-  // address: process.env.ADDRESS
-  openid: "process.env.OPEN_ID",
-  mrdkkey: "process.env.MRDK_KEY",
-  student_num: '2018210052',
-  address: "重庆邮电大学"
+  openid: process.env.OPEN_ID,
+  mrdkkey: process.env.MRDK_KEY,
+  student_num: process.env.STUDENT_NUM,
+  address: process.env.ADDRESS
 };
 
 // 获取当前时间戳
