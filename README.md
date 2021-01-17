@@ -1,4 +1,4 @@
-# 重庆邮电大学定时自动健康打卡脚本
+# 重庆邮电大学定时健康打卡脚本
 
 ![School](https://img.shields.io/badge/School-CQUPT-green.svg)
 ![Language](https://img.shields.io/badge/language-Node-yellow.svg)
@@ -14,11 +14,11 @@
 利用 Github Aciton 实现每天定时自动打卡，并将打卡信息推送到微信。所有私密信息均存放在 Githb Secrets。
 工作原理就是发送一个 POST 请求到 WE 重邮的服务器，这个 POST 请求的上传的信息包括
 | 键名                        | 备注                                        | 默认值           |
-| :-------------------------: | :--------------------------------------:    | **自行抓包获得** |
+| :-------------------------: | :--------------------------------------:    | :----------:     |
 | openid                      | 个人唯一的身份标示                          | **自行抓包获得** |
-| mrdkkey                     | 不清楚用途，但每个人不同                    | 自动生成         |
-| xh                          | 学号                                        | **手动输入**     |
+| mrdkkey                     | 不清楚用途，但每个人不同                    | **自行抓包获得** |
 | timestamp                   | 当前时间戳                                  | 自动获取         |
+| xh                          | 学号                                        | **手动输入**     |
 | name                        | 姓名                                        | 自动获取         |
 | xb                          | 性别                                        | 自动获取         |
 | szdq                        | 填写的地址                                  | 自动获取         |
@@ -43,10 +43,9 @@
   - MRDK_KEY：自行抓包获得。
   - STUDENT_NUM：学号。
   - ADDRESS：详细住址，填写到区县一级即可，比如南岸区重庆邮电大学。
-  - PUSH_KEY：如果你需要推送打卡信息到微信
+  - PUSH_KEY：本脚本通过 [Sever 酱](http://sc.ftqq.com/) 来实现推送打卡信息到微信，如果你需要开启这个服务，就按照网站首页提示即可，你会获得一个 SCKEY，你需要填入 PUSH_KEY 中。如果你不需要推送，则可以不填。
 ![](https://img.imgdb.cn/item/600331ea3ffa7d37b3262a3d.jpg)
 3. 修改脚本执行时间，先要将仓库 Clone 到本地，修改 `CQUPT_Health_ClockIn/.github/workflows/work.yaml`
-4. 本脚本通过 [Sever 酱](http://sc.ftqq.com/) 来实现推送打卡信息到微信，如果你需要开启这个服务，就按照网站首页提示即可，你会获得一个 SCKEY，你需要填入上面的 PUSH_KEY 中。
 
 ### 在本地运行测试
 ```js
