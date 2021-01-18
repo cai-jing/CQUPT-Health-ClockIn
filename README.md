@@ -41,7 +41,7 @@
 ![](./img/1.jpeg)
 ![](./img/2.jpeg)
 2. 在 Settings->Secrets 中添加以下几个值，这些数据不会公开，填写时请注意不要有换行
-  - OPEN_ID：自行抓包获得。提示一下，在`更多`界面就可以获取到 openid，数据在 get_info 的响应里面，需要使用 base64 解密 data 的值。
+  - OPEN_ID：自行抓包获得。提示一下，进入资讯页面就可以获得 openid。
   - STUDENT_NUM：学号。
   - ADDRESS：详细住址，一般区县+小区/街道就可以了，比如南岸区重庆邮电大学。
   - PUSH_KEY：本脚本通过 [Sever 酱](http://sc.ftqq.com/) 来实现推送打卡信息到微信，如果你需要开启这个服务，就按照网站首页提示即可，你会获得一个 SCKEY，你需要填入 PUSH_KEY 中。如果你不需要推送，则可以不填。 
