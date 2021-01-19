@@ -20,6 +20,11 @@ const getTimeStamp = () => Math.floor(Date.now() / 1000);
 
 // 检查重复打卡
 function checkRepeatClock() {
+  if (!secret_keys.student_num) {
+    console.log("1、没有填写学号");
+    console.log("2、打卡失败");
+    return;
+  }
   const key = {
     xh: secret_keys.student_num,
     timestamp: getTimeStamp()
@@ -58,8 +63,7 @@ function checkRepeatClock() {
 // 获取学生信息
 function getStudentInfo() {
   const options = {
-    url:
-      "https://cyxbsmobile.redrock.team/cyxbsMobile/index.php/home/searchPeople/peopleList",
+    url: "https://cyxbsmobile.redrock.team/cyxbsMobile/index.php/home/searchPeople/peopleList",
     method: "GET",
     params: {
       stu: secret_keys.student_num
@@ -90,6 +94,11 @@ function getStudentInfo() {
 
 // 获取位置信息
 function getLocation() {
+  if (!secret_keys.address) {
+    console.log("3、没有填写地址");
+    console.log("4、打卡失败");
+    return;
+  }
   const options = {
     url: "https://apis.map.qq.com/ws/geocoder/v1/",
     method: "GET",
@@ -110,8 +119,8 @@ function getLocation() {
           result.address_components.district +
           result.title;
         secret_keys.locationBig = `中国,${result.address_components.province},${result.address_components.city},${result.address_components.district}`;
-        ClockIn();
         console.log("3、获取地址成功");
+        clockIn();
       } else {
         console.log("3、获取地址失败");
         console.log("4、打卡失败");
@@ -128,18 +137,26 @@ function getLocation() {
 }
 
 // 打卡
-function ClockIn() {
+function clockIn() {
+  if (!secret_keys.openid) {
+    console.log("4、没有填写 OPEN_ID");
+    console.log("5、打卡失败");
+    return;
+  }
   const time = new Date();
+
+  //生成从10到99的随机数，用于每天小幅改变经纬度
+  const random = (min,max) => { return parseInt(Math.random()*(max-min+1)+min,10)};
+
   const key = {
     openid: secret_keys.openid.replace(/[\r\n]/g, ""),
-    mrdkkey: getMrdkKey(time.getDate(), time.getHours()),
     name: secret_keys.name,
     xh: secret_keys.student_num,
     xb: secret_keys.sex,
     locationBig: secret_keys.locationBig,
     locationSmall: secret_keys.locationSmall,
-    latitude: secret_keys.lat,
-    longitude: secret_keys.lng,
+    latitude: secret_keys.lat.toString().slice(0,-2)+random(10,99).toString(),
+    longitude: secret_keys.lng.toString().slice(0,-2)+random(10,99).toString(),
     szdq: secret_keys.addressBig,
     xxdz: secret_keys.address,
 
@@ -156,7 +173,8 @@ function ClockIn() {
     // 备注
     beizhu: "无",
     // 当前时间戳
-    timestamp: getTimeStamp()
+    timestamp: getTimeStamp(),
+    mrdkkey: getMrdkKey(time.getDate(), time.getHours())
   };
 
   const key_base64 = new Buffer.from(JSON.stringify(key)).toString("base64");
@@ -165,8 +183,7 @@ function ClockIn() {
     url: "https://we.cqu.pt/api/mrdk/post_mrdk_info.php",
     method: "POST",
     headers: {
-      "User-Agent":
-        "Mozilla/5.0 (Linux; Android 10; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/78.0.3904.62 XWEB/2693 MMWEBSDK/201001 Mobile Safari/537.36 MMWEBID/7311 MicroMessenger/7.0.20.1781(0x27001439) Process/appbrand2 WeChat/arm64 NetType/4G Language/zh_CN ABI/arm64",
+      "User-Agent": "Mozilla/5.0 (Linux; Android 10; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/78.0.3904.62 XWEB/2693 MMWEBSDK/201001 Mobile Safari/537.36 MMWEBID/7311 MicroMessenger/7.0.20.1781(0x27001439) Process/appbrand2 WeChat/arm64 NetType/4G Language/zh_CN ABI/arm64",
       Referer: "https://servicewechat.com/wx8227f55dc4490f45/76/page-frame.html"
     },
     data: {
