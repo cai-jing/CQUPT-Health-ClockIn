@@ -46,7 +46,7 @@
   - ADDRESS：详细住址，填写到区县一级即可，比如南岸区重庆邮电大学。
   - PUSH_KEY：本脚本通过 [Sever 酱](http://sc.ftqq.com/) 来实现推送打卡信息到微信，如果你需要开启这个服务，就按照网站首页提示即可，你会获得一个 SCKEY，你需要填入 PUSH_KEY 中。如果你不需要推送，则可以不填。 
 ![](./img/3.png)
-3. 修改脚本执行时间，修改 `CQUPT_Health_ClockIn/.github/workflows/work.yaml`，可以将仓库 Clone 到本地，也可以在线修改。Github 定时执行会有延迟，大概是 10 到 20 分钟。每次 Push 也会触发打卡，脚本会检测重复打卡。
+3. 修改脚本执行时间，修改 `CQUPT_Health_ClockIn/.github/workflows/work.yaml`，可以将仓库 Clone 到本地，也可以在线修改。Github 定时执行会有延迟，大概是 10 到 20 分钟。每次 Push 也会触发打卡，脚本会检测重复打卡。 
 4. 运行结果  
 ![](./img/4.jpeg)
 ![](./img/5.jpeg)
