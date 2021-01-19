@@ -40,13 +40,21 @@
 1. Star 并 Fork 本仓库，进入 Actions 界面，允许 workflow 运行，注意需要下方两个地方都需要允许。  
 ![](./img/1.jpeg)
 ![](./img/2.jpeg)
-2. 在 Settings->Secrets 中添加以下几个值，这些数据不会公开，填写时请注意不要有换行
-  - OPEN_ID：自行抓包获得。 
+2. 在 Settings->Secrets 中添加以下几个值，**这些数据不会公开**，填写时请注意不要有换行
+  - OPEN_ID：自行抓包获得。提示一下，进入资讯页面就可以获得 openid。
   - STUDENT_NUM：学号。
-  - ADDRESS：详细住址，填写到区县一级即可，比如南岸区重庆邮电大学。
+  - ADDRESS：详细住址，根据学校要求，需要填写区/县 + 小区/街道/村 + 门牌号，例如南岸区重庆邮电大学4407。
   - PUSH_KEY：本脚本通过 [Sever 酱](http://sc.ftqq.com/) 来实现推送打卡信息到微信，如果你需要开启这个服务，就按照网站首页提示即可，你会获得一个 SCKEY，你需要填入 PUSH_KEY 中。如果你不需要推送，则可以不填。 
 ![](./img/3.png)
-3. 修改脚本执行时间，修改 `CQUPT_Health_ClockIn/.github/workflows/work.yaml`，可以将仓库 Clone 到本地，也可以在线修改。Github 定时执行会有延迟，大概是 10 到 20 分钟。每次 Push 也会触发打卡，脚本会检测重复打卡。 
+3. 修改脚本执行时间，修改 `CQUPT_Health_ClockIn/.github/workflows/work.yaml`，可以将仓库 Clone 到本地，也可以在线修改。
+  - 每天会打卡两次避免遇到错误导致打卡失败，放心，脚本会检查重复打卡。
+  - 请不要把时间设置在 3 点到 6 点，此时学校服务器会关闭。
+  - 定时执行一般会延迟接近一个小时，没办法，免费版要排队。
+  - **请一定要修改执行时间，用于触发第一次脚本运行，哪怕分钟+1也行，不然可能不会定时执行**
 4. 运行结果  
 ![](./img/4.jpeg)
 ![](./img/5.jpeg)
+
+### Fork 后同步我的更新
+可以参考这个回答  
+https://www.zhihu.com/question/28676261/answer/1545698800
