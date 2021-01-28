@@ -15,6 +15,23 @@ const secret_keys = {
   address: process.env.ADDRESS
 };
 
+// 超时重试
+ax.interceptors.response.use(undefined, function axiosRetryInterceptor(err) {
+  const config = err.config;
+  if(!config || !config.retry) return Promise.reject(err);
+  config.__retryCount = config.__retryCount || 0;
+  if(config.__retryCount >= config.retry) {
+    return Promise.reject(err);
+  }
+  config.__retryCount += 1;
+  const backoff = new Promise(function(resolve) {
+    setTimeout(function() {
+      resolve();
+    }, config.retryDelay || 1);
+  });
+  return backoff.then(() => ax(config));
+});
+
 // 获取当前时间戳
 const getTimeStamp = () => Math.floor(Date.now() / 1000);
 
@@ -35,7 +52,10 @@ function checkRepeatClock() {
     method: "POST",
     data: {
       key: key_base64
-    }
+    },
+    retry: 5, // 重试次数
+    timeout: 10000, // 超时时间
+    retryDelay: 1000 // 间隔时间
   };
   ax(options)
     .then(res => {
@@ -54,7 +74,7 @@ function checkRepeatClock() {
         return;
       }
     })
-    .catch(err => {
+    .catch(() => {
       console.log("1、检测重复打卡失败");
       return;
     });
@@ -67,7 +87,10 @@ function getStudentInfo() {
     method: "GET",
     params: {
       stu: secret_keys.student_num
-    }
+    },
+    retry: 5,
+    timeout: 10000,
+    retryDelay: 1000
   };
   ax(options)
     .then(res => {
@@ -105,7 +128,10 @@ function getLocation() {
     params: {
       address: secret_keys.address,
       key: "PULBZ-BSEWU-MAEVV-2IAJR-ZCAS3-53F4O"
-    }
+    },
+    retry: 5,
+    timeout: 10000,
+    retryDelay: 1000
   };
   ax(options)
     .then(res => {
@@ -155,8 +181,8 @@ function clockIn() {
     xb: secret_keys.sex,
     locationBig: secret_keys.locationBig,
     locationSmall: secret_keys.locationSmall,
-    latitude: secret_keys.lat.toString().slice(0,-2)+random(10,99).toString(),
-    longitude: secret_keys.lng.toString().slice(0,-2)+random(10,99).toString(),
+    latitude: secret_keys.lat+random(10,99)*0.000001,
+    longitude: secret_keys.lng+random(10,99)*0.000001,
     szdq: secret_keys.addressBig,
     xxdz: secret_keys.address,
 
@@ -188,7 +214,10 @@ function clockIn() {
     },
     data: {
       key: key_base64
-    }
+    },
+    retry: 5,
+    timeout: 10000,
+    retryDelay: 1000
   };
 
   ax(options)
@@ -201,7 +230,7 @@ function clockIn() {
         sendNotification("自动健康打卡失败，请手动打卡");
       }
     })
-    .catch(err => {
+    .catch(() => {
       console.log("4、打卡失败");
       sendNotification("自动健康打卡失败，请手动打卡");
     });
@@ -220,7 +249,10 @@ function sendNotification(text) {
     method: "GET",
     params: {
       text: text
-    }
+    },
+    retry: 5,
+    timeout: 10000,
+    retryDelay: 1000
   };
 
   ax(options)
@@ -232,7 +264,7 @@ function sendNotification(text) {
         console.log("5、发送通知失败：" + res.data.errmsg);
       }
     })
-    .catch(err => {
+    .catch(() => {
       console.log("5、发送通知失败");
     });
 }
