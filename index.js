@@ -1,4 +1,4 @@
-// version v1.0
+// version v1.1
 // create by ourongxing
 // detail url: https://github.com/ourongxing/CQUPT-Health-ClockIn
 
@@ -15,14 +15,16 @@ const getTimeStamp = () => Math.floor(Date.now() / 1000);
 
 // 私密信息，通过 Github secrets 填入
 const secret_keys = {
-  push_key: process.env.PUSH_KEY,
-  push_key_qq: process.env.PUSH_KEY_QQ,
   openid: process.env.OPEN_ID,
   student_num: process.env.STUDENT_NUM,
-  address: process.env.ADDRESS
+  name: process.env.NAME,
+  gender: process.env.GENDER,
+  address: process.env.ADDRESS,
+  push_key: process.env.PUSH_KEY,
+  push_key_qq: process.env.PUSH_KEY_QQ,
 };
 
-// 修改默认的 console.log() 函数，集成多个功能
+// 修改默认的 console.log() 函数，集成多个功能，请使用 console.error()
 let logs = "";
 console.oldLog = console.log;
 console.log = function(str) {
@@ -38,6 +40,9 @@ console.log = function(str) {
   }
   if (str.indexOf("自动打卡成功") != -1) {
     sendNotification("自动打卡成功");
+  }
+  if (str.indexOf("今天已完成打卡") != -1) {
+    sendNotification("今天已完成打卡");
   }
   if (str.indexOf("检测重复打卡失败") != -1) {
     sendNotification("检测重复打卡失败");
@@ -66,17 +71,12 @@ ax.defaults.timeout = 15000;
 //默认重试次数
 ax.defaults.retry = 5;
 //默认间隔时间
-ax.defaults.retryDelay = 1000;
+ax.defaults.retryDelay = 2000;
 
 // 检查重复打卡
 function checkRepeatClock() {
-  if (getLocalTime().getUTCHours() > 0 && getLocalTime().getUTCHours() < 6) {
-    console.log("1 到 6 点查询学生信息的接口关闭");
-    console.log("自动打卡失败");
-    return;
-  }
-  if (!secret_keys.student_num) {
-    console.log("没有填写学号");
+  if (!secret_keys.student_num | !secret_keys.gender | !secret_keys.name | !secret_keys.openid) {
+    console.log("信息请填写完整");
     console.log("自动打卡失败");
     return;
   }
@@ -98,10 +98,10 @@ function checkRepeatClock() {
         let count = res.data.data.count;
         if (count == "0") {
           console.log("检测重复打卡-今日首次打卡");
-          getStudentInfo();
+          getLocation();
         } else {
-          console.log("检测重复打卡-今日已打卡");
-          console.log("自动打卡成功");
+          console.log("检测重复打卡");
+          console.log("今天已完成打卡");
         }
       } else {
         console.log("检测重复打卡失败");
@@ -127,7 +127,7 @@ function getStudentInfo() {
       if (res.data.status == 200) {
         let data = res.data.data[0];
         secret_keys.name = data.name;
-        secret_keys.sex = data.gender;
+        secret_keys.gender = data.gender;
         console.log("获取学生信息成功");
         getLocation();
       } else {
@@ -143,11 +143,6 @@ function getStudentInfo() {
 
 // 获取位置信息
 function getLocation() {
-  if (!secret_keys.address) {
-    console.log("没有填写地址");
-    console.log("自动打卡失败");
-    return;
-  }
   const options = {
     url: "https://apis.map.qq.com/ws/geocoder/v1/",
     method: "GET",
@@ -183,24 +178,20 @@ function getLocation() {
 
 // 打卡
 function clockIn() {
-  if (!secret_keys.openid) {
-    console.log("没有填写 OPEN_ID");
-    console.log("自动打卡失败");
-    return;
-  }
   //生成从10到99的随机数，用于每天小幅改变经纬度
   const random = (min, max) => {
     return parseInt(Math.random() * (max - min + 1) + min, 10);
   };
   const key = {
+    name: secret_keys.name.replace(/[\r\n]/g, ""),
+    xh: secret_keys.student_num.replace(/[\r\n]/g, ""),
+    xb: secret_keys.gender.replace(/[\r\n]/g, ""),
     openid: secret_keys.openid.replace(/[\r\n]/g, ""),
-    name: secret_keys.name,
-    xh: secret_keys.student_num,
-    xb: secret_keys.sex,
     locationBig: secret_keys.locationBig,
     locationSmall: secret_keys.locationSmall,
-    latitude: secret_keys.lat + random(10, 99) * 0.000001,
-    longitude: secret_keys.lng + random(10, 99) * 0.000001,
+    // 浮点数的加减乘除要把我给整吐了
+    latitude: parseFloat((secret_keys.lat + random(10, 99) * 0.000001).toFixed(6)),
+    longitude: parseFloat((secret_keys.lng + random(10, 99) * 0.000001).toFixed(6)),
     szdq: secret_keys.addressBig,
     xxdz: secret_keys.address,
 
@@ -216,12 +207,12 @@ function clockIn() {
     ywytdzz: "无",
     // 备注
     beizhu: "无",
-    // 当前时间戳
-    timestamp: getTimeStamp(),
     mrdkkey: getMrdkKey(
       getLocalTime().getUTCDate(),
       getLocalTime().getUTCHours()
-    )
+    ),
+    // 当前时间戳
+    timestamp: getTimeStamp(),
   };
   const key_base64 = new Buffer.from(JSON.stringify(key)).toString("base64");
   const options = {
