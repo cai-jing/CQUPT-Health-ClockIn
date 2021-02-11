@@ -67,11 +67,11 @@ ax.interceptors.response.use(undefined, function axiosRetryInterceptor(err) {
 });
 
 //默认超时时间
-ax.defaults.timeout = 15000;
+ax.defaults.timeout = 10000;
 //默认重试次数
-ax.defaults.retry = 10;
+ax.defaults.retry = 3;
 //默认间隔时间
-ax.defaults.retryDelay = 5000;
+ax.defaults.retryDelay = 1000;
 
 // 检查重复打卡
 function checkRepeatClock() {
