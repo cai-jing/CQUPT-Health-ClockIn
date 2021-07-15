@@ -19,7 +19,7 @@ const secret_keys = {
 const getTimeStamp = () => Math.floor(Date.now() / 1000);
 
 // 检查重复打卡
-function checkRepeatCldack() {
+function checkRepeatClock() {
   if (!secret_keys.student_num) {
     console.log("1、没有填写学号");
     console.log("2、打卡失败");
