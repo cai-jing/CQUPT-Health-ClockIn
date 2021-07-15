@@ -19,7 +19,7 @@ const secret_keys = {
 const getTimeStamp = () => Math.floor(Date.now() / 1000);
 
 // 检查重复打卡
-function checkRepeatClock() {
+function checkRepeatCldack() {
   if (!secret_keys.student_num) {
     console.log("1、没有填写学号");
     console.log("2、打卡失败");
@@ -31,7 +31,7 @@ function checkRepeatClock() {
   };
   const key_base64 = new Buffer.from(JSON.stringify(key)).toString("base64");
   const options = {
-    url: "https://we.cqu.pt/api/mrdk/get_mrdk_flag.php",
+    url: "https://we.cqupt.edu.cn/api/mrdk/get_mrdk_flag.php",
     method: "POST",
     data: {
       key: key_base64
@@ -145,6 +145,22 @@ function clockIn() {
     return;
   }
   const time = new Date();
+
+  /**
+新的请求字段：
+{"xxdz":"崇文路2号重庆邮电大学",
+"szdq":"重庆市,重庆市,南岸区",
+"name":"名字","xh":"学号",
+"xb":"男","openid":"oIaII0TZQgzGo52qlqJ6Tsye9ahk",
+"locationBig":"中国,重庆市,重庆市,渝北区",
+"locationSmall":"重庆市渝北区龙湖东路",
+"latitude":29.60396,"longitude":106.515602,
+"ywjcqzbl":"低风险","ywjchblj":"无",
+"xjzdywqzbl":"无","twsfzc":"是","
+ywytdzz":"无","beizhu":"无","mrdkkey":"frhTGPHN",
+"timestamp":1626312142}
+
+  **/
   const key = {
     openid: secret_keys.openid.replace(/[\r\n]/g, ""),
     name: secret_keys.name,
@@ -171,13 +187,14 @@ function clockIn() {
     beizhu: "无",
     // 当前时间戳
     timestamp: getTimeStamp(),
-    mrdkkey: getMrdkKey(time.getDate(), time.getHours())
+   //mrdkkey可以不需要
+   // mrdkkey: getMrdkKey(time.getDate(), time.getHours())
   };
 
   const key_base64 = new Buffer.from(JSON.stringify(key)).toString("base64");
 
   const options = {
-    url: "https://we.cqu.pt/api/mrdk/post_mrdk_info.php",
+    url: "https://we.cqupt.edu.cn/api/mrdk/post_mrdk_info.php",
     method: "POST",
     headers: {
       "User-Agent":
