@@ -11,6 +11,10 @@
 3. 本脚本需要自行抓包才能正常使用，为了避免脚本被滥用，在此我不会提供抓包相关教程。抓包工具 iOS 推荐 Stream，Android 推荐 HttpCanary。
 4. 开发者对使用或不使用本脚本造成的问题不负任何责任，不对脚本执行效果做出任何担保，原则上不提供任何形式的技术支持。
 
+
+
+
+
 ### 功能介绍
 
 利用 Github Aciton 实现每天定时自动打卡，并将打卡信息推送到微信，所有私密信息均存放在 Github Secrets，不会公开。
@@ -36,7 +40,58 @@
 | ywytdzz                     | 今日是否有与新冠病毒感染有关的症状          | 无               |
 | beizhu                      | 备注                                        | 无               |
 
+
+
+### 新（改）-接口
+
+模拟打卡请求的字段：
+
+```
+{"xxdz":"崇文路2号重庆邮电大学","szdq":"重庆市,重庆市,南岸区",
+"name":"你的名字","xh":"学号","xb":"男",
+"openid":"oIaII0TZQgzGo52qlqJ6Tsye9ahk",
+"locationBig":"中国,重庆市,重庆市,渝北区",
+"locationSmall":"重庆市渝北区龙湖东路",
+"latitude":29.60396,"longitude":106.515602,
+"ywjcqzbl":"低风险","ywjchblj":"无","xjzdywqzbl":"无","twsfzc":"是",
+"ywytdzz":"无","beizhu":"无",
+"mrdkkey":"可以不需要该字段","timestamp":1626312142}
+
+
+唯一验证的就是timestamp，需要用程序生成时间戳，其他字段可以按需固定修改。
+```
+
+
+
+```
+模拟打卡接口
+https://we.cqupt.edu.cn/api/mrdk/post_mrdk_info.php
+
+
+检测重复打卡接口
+https://we.cqupt.edu.cn/api/mrdk/get_mrdk_flag.php
+
+
+```
+
+
+
+检测重复打卡返回数据（成功打卡时，count表示打卡的次数，status表示打卡成功）：
+
+```
+{
+  "status": 200,
+  "message": "ok",
+  "data": {
+    "count": "0"
+  }
+}
+```
+
+
+
 ### 使用方法
+
 1. Star 并 Fork 本仓库，进入 Actions 界面，允许 workflow 运行，注意需要下方两个地方都需要允许。  
 ![](./img/1.jpeg)
 ![](./img/2.jpeg)
