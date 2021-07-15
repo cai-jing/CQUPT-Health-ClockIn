@@ -231,7 +231,7 @@ function sendNotification(text) {
   let SCKEY = push_key.replace(/[\r\n]/g, "");
 
   const options = {
-    url: `https://sc.ftqq.com/${SCKEY}.send`,
+    url: `https://sctapi.ftqq.com/${SCKEY}.send`,
     method: "GET",
     params: {
       text: text
