@@ -1,4 +1,4 @@
-name: Auto Clock 2
+name: Auto Clock 4
 
 on:
   # push 到 main 分支的时候会触发打卡，我会检测重复打卡的
