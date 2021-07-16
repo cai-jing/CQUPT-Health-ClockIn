@@ -42,9 +42,11 @@
 
 
 
-### 新（改）-接口
+### （改）-新接口
 
-模拟打卡请求的字段：
+
+
+模拟打卡请求的新字段：
 
 ```
 {"xxdz":"崇文路2号重庆邮电大学","szdq":"重庆市,重庆市,南岸区",
@@ -62,6 +64,8 @@
 ```
 
 
+
+打卡接口：
 
 ```
 模拟打卡接口
@@ -90,7 +94,7 @@ https://we.cqupt.edu.cn/api/mrdk/get_mrdk_flag.php
 
 
 
-### 使用方法
+### （新）使用方法
 
 1. Star 并 Fork 本仓库，进入 Actions 界面，允许 workflow 运行，注意需要下方两个地方都需要允许。  
 ![](./img/1.jpeg)
@@ -99,13 +103,16 @@ https://we.cqupt.edu.cn/api/mrdk/get_mrdk_flag.php
   - OPEN_ID：自行抓包获得。提示一下，进入资讯页面就可以获得 openid。
   - STUDENT_NUM：学号。
   - ADDRESS：详细住址，一般区县+小区/街道就可以了，比如南岸区重庆邮电大学。
-  - PUSH_KEY：本脚本通过 [Sever 酱](http://sc.ftqq.com/) 来实现推送打卡信息到微信，如果你需要开启这个服务，就按照网站首页提示即可，你会获得一个 SCKEY，你需要填入 PUSH_KEY 中。如果你不需要推送，则可以不填。 
+  - PUSH_KEY：本脚本通过**新版本的** [Sever 酱](https://sct.ftqq.com/forward) 来实现推送打卡信息到微信，如果你需要开启这个服务，就按照网站首页提示即可，你会获得一个 SCKEY，你需要填入 PUSH_KEY 中。如果你不需要推送，则可以不填。 
 ![](./img/3.png)
 3. 修改脚本执行时间，修改 `CQUPT_Health_ClockIn/.github/workflows/work.yaml`，可以将仓库 Clone 到本地，也可以在线修改。Github 定时执行会有延迟，大概是 10 到 20 分钟。每次 Push 也会触发打卡，脚本会检测重复打卡。
-4. 运行结果  
-![](./img/4.jpeg)
-![](./img/5.jpeg)
 
-### Fork 后同步我的更新
-可以参考这个回答  
-https://www.zhihu.com/question/28676261/answer/1545698800
+4. 运行结果  
+
+5. ![](./img/4.jpeg)
+
+6. 我这里使用的是server酱 IOS端消息通道 Bark软件接收的信息（由于我打卡过了 显示打卡失败）
+
+  ![image-20210716123700547](https://sign-1259371307.cos.ap-chongqing.myqcloud.com/image-20210716123700547.png)
+
+### 
